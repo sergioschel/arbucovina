@@ -2,9 +2,12 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Mural Bucovina – AR Educativo</title>
+  <title>Mural Bucovina – Realidade Aumentada</title>
 
+  <!-- A-Frame -->
   https://aframe.io/releases/1.4.1/aframe.min.js
+
+  <!-- MindAR -->
   https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js
 
   <style>
@@ -19,84 +22,85 @@
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(0,0,0,0.85);
-      color: white;
+      background: rgba(0, 0, 0, 0.85);
+      color: #fff;
       padding: 16px 18px;
       border-radius: 12px;
       max-width: 85%;
       display: none;
-      font-size: 15px;
-      line-height: 1.45;
       z-index: 10;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    #close-btn {
+      margin-top: 10px;
+      text-align: right;
+      font-size: 13px;
+      opacity: 0.8;
+      cursor: pointer;
     }
   </style>
 </head>
 
 <body>
 
-  <div id="info-box"></div>
+  <!-- Caixa de texto -->
+  <div id="info-box">
+    <div id="info-text">Texto</div>
+    <div id="close-btn" onclick="fecharInfo()">Fechar</div>
+  </div>
 
   <a-scene
     mindar-image="imageTargetSrc: painel.mind;"
     vr-mode-ui="enabled: false"
     device-orientation-permission-ui="enabled: true">
 
-    <!-- câmera com cursor invisível -->
-    <a-camera position="0 0 0" look-controls="enabled: false">
-      <a-cursor
-        fuse="true"
-        fuse-timeout="600"
-        raycaster="objects: .zona"
-        material="opacity: 0">
-      </a-cursor>
-    </a-camera>
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-    <!-- mural reconhecido -->
+    <!-- Target da imagem -->
     <a-entity mindar-image-target="targetIndex: 0">
 
-      <!-- ✅ ELEMENTO 1 -->
-      <a-plane class="zona"
-        position="-0.38 0.32 0"
-        width="0.22"
-        height="0.22"
-        material="opacity:0"
-        onmouseenter="mostrar('Elemento 1 – Texto educativo genérico para esta parte do mural.')"
-        onmouseleave="esconder()">
-      </a-plane>
+      <!-- 🔴 HOTSPOTS -->
+      <!-- Ajuste position="x y z" conforme o mural -->
 
-      <!-- ✅ ELEMENTO 2 -->
-      <a-plane class="zona"
-        position="-0.12 0.34 0"
-        width="0.22"
-        height="0.22"
-        material="opacity:0"
-        onmouseenter="mostrar('Elemento 2 – Informação histórica, cultural ou simbólica.')"
-        onmouseleave="esconder()">
-      </a-plane>
+      <!-- Modelo:
+      <a-sphere position="0 0 0" radius="0.045" color="#ff0000"
+        onclick="mostrarInfo('Texto')"></a-sphere>
+      -->
+      
 
-      <!-- ✅ ELEMENTO 3 -->
-      <a-plane class="zona"
-        position="0.25 0.28 0"
-        width="0.24"
-        height="0.24"
-        material="opacity:0"
-        onmouseenter="mostrar('Elemento 3 – Descrição relacionada à cervejaria Bucovina.')"
-        onmouseleave="esconder()">
-      </a-plane>
+      <a-sphere position="0 -0.45 0" radius="0.045" color="#ff0000"
+        onclick="mostrarInfo('Elemento 19 – Estilos e diversidade de cervejas.')"></a-sphere>
 
-      <!-- ➕ continue até o elemento 25 -->
+      <a-sphere position="0.15 -0.45 0" radius="0.045" color="#ff0000"
+        onclick="mostrarInfo('Elemento 20 – Qualidade e cuidado em cada etapa.')"></a-sphere>
+
+      <a-sphere position="0.35 -0.3 0" radius="0.045" color="#ff0000"
+        onclick="mostrarInfo('Elemento 21 – Sustentabilidade e responsabilidade.')"></a-sphere>
+
+      <a-sphere position="0.35 -0.1 0" radius="0.045" color="#ff0000"
+        onclick="mostrarInfo('Elemento 22 – Educação cervejeira e cultura.')"></a-sphere>
+
+      <a-sphere position="0.35 0.1 0" radius="0.045" color="#ff0000"
+        onclick="mostrarInfo('Elemento 23 – A cerveja como patrimônio cultural.')"></a-sphere>
+
+      <a-sphere position="0.35 0.3 0" radius="0.045" color="#ff0000"
+        onclick="mostrarInfo('Elemento 24 – Inovação e novos caminhos.')"></a-sphere>
+
+      <a-sphere position="0 0.55 0" radius="0.045" color="#ff0000"
+        onclick="mostrarInfo('Elemento 25 – Celebração da história e do futuro da Bucovina.')"></a-sphere>
 
     </a-entity>
   </a-scene>
 
   <script>
-    function mostrar(texto) {
-      const box = document.getElementById("info-box");
-      box.innerText = texto;
-      box.style.display = "block";
+    function mostrarInfo(texto) {
+      document.getElementById("info-text").innerText = texto;
+      document.getElementById("info-box").style.display = "block";
     }
 
-    function esconder() {
+    function fecharInfo() {
       document.getElementById("info-box").style.display = "none";
     }
   </script>
