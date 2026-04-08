@@ -2,13 +2,10 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Mural Bucovina – Realidade Aumentada</title>
+  <title>Mural Bucovina – AR Educativo</title>
 
-  <!-- A-Frame -->
-  <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
-
-  <!-- MindAR -->
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  https://aframe.io/releases/1.4.1/aframe.min.js
+  https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js
 
   <style>
     body {
@@ -22,82 +19,84 @@
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.85);
-      color: #fff;
+      background: rgba(0,0,0,0.85);
+      color: white;
       padding: 16px 18px;
       border-radius: 12px;
       max-width: 85%;
       display: none;
-      z-index: 10;
       font-size: 15px;
-      line-height: 1.4;
-    }
-
-    #close-btn {
-      margin-top: 10px;
-      text-align: right;
-      font-size: 13px;
-      opacity: 0.8;
-      cursor: pointer;
+      line-height: 1.45;
+      z-index: 10;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Caixa de texto -->
-  <div id="info-box">
-    <div id="info-text">Texto</div>
-    <div id="close-btn" onclick="fecharInfo()">Fechar</div>
-  </div>
+  <div id="info-box"></div>
 
   <a-scene
     mindar-image="imageTargetSrc: painel.mind;"
     vr-mode-ui="enabled: false"
     device-orientation-permission-ui="enabled: true">
 
-    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+    <!-- câmera com cursor invisível -->
+    <a-camera position="0 0 0" look-controls="enabled: false">
+      <a-cursor
+        fuse="true"
+        fuse-timeout="600"
+        raycaster="objects: .zona"
+        material="opacity: 0">
+      </a-cursor>
+    </a-camera>
 
-    <!-- Target da imagem -->
+    <!-- mural reconhecido -->
     <a-entity mindar-image-target="targetIndex: 0">
 
-      <!-- 🔴 HOTSPOTS -->
-      <!-- Ajuste position="x y z" conforme o mural -->
+      <!-- ✅ ELEMENTO 1 -->
+      <a-plane class="zona"
+        position="-0.38 0.32 0"
+        width="0.22"
+        height="0.22"
+        material="opacity:0"
+        onmouseenter="mostrar('Elemento 1 – Texto educativo genérico para esta parte do mural.')"
+        onmouseleave="esconder()">
+      </a-plane>
 
-      <!-- Modelo:
-      <a-sphere position="0 0 0" radius="0.045" color="#ff0000"
-        onclick="mostrarInfo('Texto')"></a-sphere>
-      -->
+      <!-- ✅ ELEMENTO 2 -->
+      <a-plane class="zona"
+        position="-0.12 0.34 0"
+        width="0.22"
+        height="0.22"
+        material="opacity:0"
+        onmouseenter="mostrar('Elemento 2 – Informação histórica, cultural ou simbólica.')"
+        onmouseleave="esconder()">
+      </a-plane>
 
-      <a-sphere position="-0.4 0.3 0" radius="0.045" color="#ff5500"
-        onclick="mostrarInfo('Elemento 1 – Texto explicativo genérico sobre este ponto do mural.')"></a-sphere>
+      <!-- ✅ ELEMENTO 3 -->
+      <a-plane class="zona"
+        position="0.25 0.28 0"
+        width="0.24"
+        height="0.24"
+        material="opacity:0"
+        onmouseenter="mostrar('Elemento 3 – Descrição relacionada à cervejaria Bucovina.')"
+        onmouseleave="esconder()">
+      </a-plane>
 
-      <a-sphere position="-0.25 0.32 0" radius="0.045" color="#ff0000"
-        onclick="mostrarInfo('Elemento 2 – Descrição histórica ou simbólica relacionada à cena.')"></a-sphere>
+      <!-- ➕ continue até o elemento 25 -->
 
-      <a-sphere position="-0.1 0.3 0" radius="0.045" color="#ff0000"
-        onclick="mostrarInfo('Elemento 3 – Informação educativa associada ao painel.')"></a-sphere>
-
-      <a-sphere position="0.05 0.32 0" radius="0.045" color="#ff0000"
-        onclick="mostrarInfo('Elemento 4 – Este ponto representa parte da narrativa visual.')"></a-sphere>
-
-      
-
-      
-
-     
-
-      
     </a-entity>
   </a-scene>
 
   <script>
-    function mostrarInfo(texto) {
-      document.getElementById("info-text").innerText = texto;
-      document.getElementById("info-box").style.display = "block";
+    function mostrar(texto) {
+      const box = document.getElementById("info-box");
+      box.innerText = texto;
+      box.style.display = "block";
     }
 
-    function fecharInfo() {
+    function esconder() {
       document.getElementById("info-box").style.display = "none";
     }
   </script>
