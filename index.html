@@ -1,23 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Mural Bucovina – Realidade Aumentada</title>
+  <meta charset="UTF-8">
+  <title>DEBUG – Mural Bucovina</title>
 
-  <!-- A-Frame -->
   <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
-
-  <!-- MindAR -->
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-
-  <!-- A-Frame Text Geometry -->
-  <script src="https://cdn.jsdelivr.net/npm/aframe-text-geometry-component@0.5.1/dist/aframe-text-geometry-component.min.js"></script>
 
   <style>
     body {
       margin: 0;
       overflow: hidden;
-      font-family: Arial, Helvetica, sans-serif;
     }
 
     #info-box {
@@ -25,141 +18,65 @@
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.85);
-      color: #fff;
-      padding: 16px 18px;
-      border-radius: 12px;
-      max-width: 85%;
-      display: none;
-      z-index: 10;
-      font-size: 15px;
-      line-height: 1.4;
-    }
-
-    #loading {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.8);
-      color: #fff;
-      padding: 20px;
+      background: rgba(0,0,0,0.85);
+      color: white;
+      padding: 14px 16px;
       border-radius: 10px;
-      z-index: 20;
       display: none;
+      max-width: 85%;
+      font-family: Arial;
+      font-size: 15px;
     }
   </style>
 </head>
 
 <body>
 
-  <div id="loading">Carregando Realidade Aumentada...</div>
-  <div id="info-box"></div>
+<div id="info-box">DEBUG TEXTO</div>
 
-  <a-scene
-    mindar-image="imageTargetSrc: painel.mind;"
-    vr-mode-ui="enabled: false"
-    device-orientation-permission-ui="enabled: true">
+<a-scene
+  mindar-image="imageTargetSrc: painel.mind;"
+  vr-mode-ui="enabled: false"
+  device-orientation-permission-ui="enabled: true">
 
-    <!-- câmera -->
-    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+  <!-- ⚠️ LOOK-CONTROLS ATIVADO -->
+  <a-camera look-controls="enabled: true">
+    <!-- CURSOR VISÍVEL PARA DEBUG -->
+    <a-cursor
+      fuse="true"
+      fuse-timeout="500"
+      raycaster="objects: .zona"
+      color="yellow">
+    </a-cursor>
+  </a-camera>
 
-    <!-- mural reconhecido -->
-    <a-entity mindar-image-target="targetIndex: 0">
+  <!-- TARGET -->
+  <a-entity mindar-image-target="targetIndex: 0">
 
-      <!-- ✅ ELEMENTO 1 - CAIXA VISÍVEL + TEXTO -->
-      <a-group position="-0.38 0.32 0.05">
-        <!-- Caixa grande e visível -->
-        <a-plane class="zona"
-          id="element1"
-          position="0 0 0"
-          width="0.3"
-          height="0.3"
-          material="color: #00ff00; opacity: 0.5; side: double"
-          cursor="rayOrigin: mouse">
-        </a-plane>
+    <!-- ZONA VISÍVEL PARA DEBUG -->
+    <a-plane class="zona"
+      position="0 0 0"
+      width="0.4"
+      height="0.4"
+      material="color:red; opacity:0.6"
+      onmouseenter="mostrar('✅ FUNCIONOU! Elemento detectado')"
+      onmouseleave="esconder()">
+    </a-plane>
 
-        <!-- Texto 3D flutuante -->
-        <a-text
-          value="Elemento 1"
-          align="center"
-          position="0 0.2 0.05"
-          scale="1.5 1.5 1.5"
-          color="#00ff00"
-          material="alphaTest: 0.5">
-        </a-text>
-      </a-group>
+  </a-entity>
+</a-scene>
 
-      <!-- ✅ ELEMENTO 2 - CAIXA VISÍVEL + TEXTO -->
-      <a-group position="-0.12 0.34 0.05">
-        <!-- Caixa grande e visível -->
-        <a-plane class="zona"
-          id="element2"
-          position="0 0 0"
-          width="0.3"
-          height="0.3"
-          material="color: #0099ff; opacity: 0.5; side: double"
-          cursor="rayOrigin: mouse">
-        </a-plane>
+<script>
+  function mostrar(txt) {
+    const box = document.getElementById('info-box');
+    box.innerText = txt;
+    box.style.display = 'block';
+  }
 
-        <!-- Texto 3D flutuante -->
-        <a-text
-          value="Elemento 2"
-          align="center"
-          position="0 0.2 0.05"
-          scale="1.5 1.5 1.5"
-          color="#0099ff"
-          material="alphaTest: 0.5">
-        </a-text>
-      </a-group>
-
-    </a-entity>
-  </a-scene>
-
-  <script>
-    function mostrar(texto) {
-      const box = document.getElementById("info-box");
-      box.innerText = texto;
-      box.style.display = "block";
-    }
-
-    function esconder() {
-      document.getElementById("info-box").style.display = "none";
-    }
-
-    // Mostrar loading ao iniciar
-    document.getElementById("loading").style.display = "block";
-
-    // Adicionar listeners aos elementos
-    document.addEventListener("DOMContentLoaded", () => {
-      const scene = document.querySelector("a-scene");
-      
-      // Esconder loading quando cena carregar
-      scene.addEventListener("loaded", () => {
-        setTimeout(() => {
-          document.getElementById("loading").style.display = "none";
-        }, 2000);
-      });
-
-      // Listeners para elemento 1
-      const elem1 = document.getElementById("element1");
-      if (elem1) {
-        elem1.addEventListener("mouseenter", () => {
-          mostrar("Elemento 1 – Texto educativo genérico para esta parte do mural.");
-        });
-        elem1.addEventListener("mouseleave", esconder);
-      }
-
-      // Listeners para elemento 2
-      const elem2 = document.getElementById("element2");
-      if (elem2) {
-        elem2.addEventListener("mouseenter", () => {
-          mostrar("Elemento 2 – Informação histórica, cultural ou simbólica.");
-        });
-        elem2.addEventListener("mouseleave", esconder);
-      }
-    });
-  </script>
+  function esconder() {
+    document.getElementById('info-box').style.display = 'none';
+  }
+</script>
 
 </body>
 </html>
