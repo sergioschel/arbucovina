@@ -10,6 +10,9 @@
   <!-- MindAR -->
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
+  <!-- A-Frame Text Geometry (para texto 3D) -->
+  <script src="https://cdn.jsdelivr.net/npm/aframe-text-geometry-component@0.5.1/dist/aframe-text-geometry-component.min.js"></script>
+
   <style>
     body {
       margin: 0;
@@ -40,11 +43,25 @@
       opacity: 0.8;
       cursor: pointer;
     }
+
+    #loading {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      z-index: 20;
+      display: none;
+    }
   </style>
 </head>
 
 <body>
 
+  <div id="loading">Carregando Realidade Aumentada...</div>
   <div id="info-box"></div>
 
   <a-scene
@@ -65,25 +82,51 @@
     <!-- mural reconhecido -->
     <a-entity mindar-image-target="targetIndex: 0">
 
-      <!-- ✅ ELEMENTO 1 -->
-      <a-plane class="zona"
-        position="-0.38 0.32 0"
-        width="0.22"
-        height="0.22"
-        material="opacity:0"
-        onmouseenter="mostrar('Elemento 1 – Texto educativo genérico para esta parte do mural.')"
-        onmouseleave="esconder()">
-      </a-plane>
+      <!-- ✅ ELEMENTO 1 - CAIXA VISUAL + TEXTO -->
+      <a-group position="-0.38 0.32 0">
+        <!-- Caixa visível com borda -->
+        <a-plane class="zona"
+          position="0 0 0"
+          width="0.22"
+          height="0.22"
+          material="color: #00ff00; opacity: 0.3; wireframe: true"
+          onmouseenter="mostrar('Elemento 1 – Texto educativo genérico para esta parte do mural.')"
+          onmouseleave="esconder()">
+        </a-plane>
 
-      <!-- ✅ ELEMENTO 2 -->
-      <a-plane class="zona"
-        position="-0.12 0.34 0"
-        width="0.22"
-        height="0.22"
-        material="opacity:0"
-        onmouseenter="mostrar('Elemento 2 – Informação histórica, cultural ou simbólica.')"
-        onmouseleave="esconder()">
-      </a-plane>     
+        <!-- Texto 3D flutuante -->
+        <a-text
+          value="Elemento 1"
+          align="center"
+          position="0 0.15 0.01"
+          scale="0.8 0.8 0.8"
+          color="#00ff00"
+          material="alphaTest: 0.5">
+        </a-text>
+      </a-group>
+
+      <!-- ✅ ELEMENTO 2 - CAIXA VISUAL + TEXTO -->
+      <a-group position="-0.12 0.34 0">
+        <!-- Caixa visível com borda -->
+        <a-plane class="zona"
+          position="0 0 0"
+          width="0.22"
+          height="0.22"
+          material="color: #0099ff; opacity: 0.3; wireframe: true"
+          onmouseenter="mostrar('Elemento 2 – Informação histórica, cultural ou simbólica.')"
+          onmouseleave="esconder()">
+        </a-plane>
+
+        <!-- Texto 3D flutuante -->
+        <a-text
+          value="Elemento 2"
+          align="center"
+          position="0 0.15 0.01"
+          scale="0.8 0.8 0.8"
+          color="#0099ff"
+          material="alphaTest: 0.5">
+        </a-text>
+      </a-group>
 
     </a-entity>
   </a-scene>
@@ -98,6 +141,19 @@
     function esconder() {
       document.getElementById("info-box").style.display = "none";
     }
+
+    // Mostrar loading ao iniciar
+    document.getElementById("loading").style.display = "block";
+
+    // Esconder loading quando a cena carregar
+    document.addEventListener("DOMContentLoaded", () => {
+      const scene = document.querySelector("a-scene");
+      scene.addEventListener("loaded", () => {
+        setTimeout(() => {
+          document.getElementById("loading").style.display = "none";
+        }, 2000);
+      });
+    });
   </script>
 
 </body>
