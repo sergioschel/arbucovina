@@ -1,105 +1,212 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <title>Mural Bucovina – AR Educativo</title>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  https://aframe.io/releases/1.4.1/aframe.min.js
-  https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  </head>
 
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+  <body>
+    <a-scene
+      mindar-image="imageTargetSrc: targets.mind"
+      color-space="sRGB"
+      renderer="colorManagement: true, physicallyCorrectLights"
+      vr-mode-ui="enabled: false"
+    >
 
-    #info-box {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,0.85);
-      color: white;
-      padding: 16px 18px;
-      border-radius: 12px;
-      max-width: 85%;
-      display: none;
-      font-size: 15px;
-      line-height: 1.45;
-      z-index: 10;
-    }
-  </style>
-</head>
+      <!-- ASSETS -->
+      <a-assets>
+        <img id="img0" src="assets/0.png" />
+        <img id="img1" src="assets/1.png" />
+        <img id="img2" src="assets/2.png" />
+        <img id="img3" src="assets/3.png" />
+        <img id="img4" src="assets/4.png" />
+        <img id="img5" src="assets/5.png" />
+        <img id="img6" src="assets/6.png" />
+      </a-assets>
 
-<body>
+      <!-- CAMERA (INTACTA) -->
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-  <div id="info-box"></div>
+      <!-- ================= TARGET 0 ================= -->
+      <a-entity mindar-image-target="targetIndex: 0"
+                animation="property: scale; from: 0 0 0; to: 1 1 1; dur: 350">
 
-  <a-scene
-    mindar-image="imageTargetSrc: painel.mind;"
-    vr-mode-ui="enabled: false"
-    device-orientation-permission-ui="enabled: true">
+        <!-- IMAGEM -->
+        <a-plane
+          src="#img0"
+          position="0 -0.05 0"
+          width="1"
+          height="0.6">
+        </a-plane>
 
-    <!-- câmera com cursor invisível -->
-    <a-camera position="0 0 0" look-controls="enabled: false">
-      <a-cursor
-        fuse="true"
-        fuse-timeout="600"
-        raycaster="objects: .zona"
-        material="opacity: 0">
-      </a-cursor>
-    </a-camera>
+        <!-- FUNDO DO TEXTO -->
+        <a-plane
+          position="0 -0.45 0"
+          width="1.05"
+          height="0.32"
+          material="color: black; opacity: 0.7">
+        </a-plane>
 
-    <!-- mural reconhecido -->
-    <a-entity mindar-image-target="targetIndex: 0">
+        <!-- TEXTO -->
+        <a-text
+          value="Elemento histórico 1 – descrição curta e objetiva."
+          position="0 -0.45 0.01"
+          width="1.9"
+          align="center"
+          color="white"
+          wrap-count="36">
+        </a-text>
 
-      <!-- ✅ ELEMENTO 1 -->
-      <a-plane class="zona"
-        position="-0.38 0.32 0"
-        width="0.22"
-        height="0.22"
-        material="opacity:0"
-        onmouseenter="mostrar('Elemento 1 – Texto educativo genérico para esta parte do mural.')"
-        onmouseleave="esconder()">
-      </a-plane>
+      </a-entity>
 
-      <!-- ✅ ELEMENTO 2 -->
-      <a-plane class="zona"
-        position="-0.12 0.34 0"
-        width="0.22"
-        height="0.22"
-        material="opacity:0"
-        onmouseenter="mostrar('Elemento 2 – Informação histórica, cultural ou simbólica.')"
-        onmouseleave="esconder()">
-      </a-plane>
+      <!-- ================= TARGET 1 ================= -->
+      <a-entity mindar-image-target="targetIndex: 1"
+                animation="property: scale; from: 0 0 0; to: 1 1 1; dur: 350">
 
-      <!-- ✅ ELEMENTO 3 -->
-      <a-plane class="zona"
-        position="0.25 0.28 0"
-        width="0.24"
-        height="0.24"
-        material="opacity:0"
-        onmouseenter="mostrar('Elemento 3 – Descrição relacionada à cervejaria Bucovina.')"
-        onmouseleave="esconder()">
-      </a-plane>
+        <a-plane src="#img1" position="0 -0.05 0" width="1" height="0.6"></a-plane>
 
-      <!-- ➕ continue até o elemento 25 -->
+        <a-plane
+          position="0 -0.45 0"
+          width="1.05"
+          height="0.32"
+          material="color: black; opacity: 0.7">
+        </a-plane>
 
-    </a-entity>
-  </a-scene>
+        <a-text
+          value="Elemento histórico 2 – explicação contextual."
+          position="0 -0.45 0.01"
+          width="1.9"
+          align="center"
+          color="white"
+          wrap-count="36">
+        </a-text>
 
-  <script>
-    function mostrar(texto) {
-      const box = document.getElementById("info-box");
-      box.innerText = texto;
-      box.style.display = "block";
-    }
+      </a-entity>
 
-    function esconder() {
-      document.getElementById("info-box").style.display = "none";
-    }
-  </script>
+      <!-- ================= TARGET 2 ================= -->
+      <a-entity mindar-image-target="targetIndex: 2"
+                animation="property: scale; from: 0 0 0; to: 1 1 1; dur: 350">
 
-</body>
+        <a-plane src="#img2" position="0 -0.05 0" width="1" height="0.6"></a-plane>
+
+        <a-plane
+          position="0 -0.45 0"
+          width="1.05"
+          height="0.32"
+          material="color: black; opacity: 0.7">
+        </a-plane>
+
+        <a-text
+          value="Elemento 3 – explicação contextual."
+          position="0 -0.45 0.01"
+          width="1.9"
+          align="center"
+          color="white"
+          wrap-count="36">
+        </a-text>
+
+      </a-entity>
+
+      <!-- ================= TARGET 3 ================= -->
+      <a-entity mindar-image-target="targetIndex: 3"
+                animation="property: scale; from: 0 0 0; to: 1 1 1; dur: 350">
+
+        <a-plane src="#img3" position="0 -0.05 0" width="1" height="0.6"></a-plane>
+
+        <a-plane
+          position="0 -0.45 0"
+          width="1.05"
+          height="0.32"
+          material="color: black; opacity: 0.7">
+        </a-plane>
+
+        <a-text
+          value="Elemento 4 – explicação contextual."
+          position="0 -0.45 0.01"
+          width="1.9"
+          align="center"
+          color="white"
+          wrap-count="36">
+        </a-text>
+
+      </a-entity>
+
+      <!-- ================= TARGET 4 ================= -->
+      <a-entity mindar-image-target="targetIndex: 4"
+                animation="property: scale; from: 0 0 0; to: 1 1 1; dur: 350">
+
+        <a-plane src="#img3" position="0 -0.05 0" width="1" height="0.6"></a-plane>
+
+        <a-plane
+          position="0 -0.45 0"
+          width="1.05"
+          height="0.32"
+          material="color: black; opacity: 0.7">
+        </a-plane>
+
+        <a-text
+          value="Elemento 5 – explicação contextual."
+          position="0 -0.45 0.01"
+          width="1.9"
+          align="center"
+          color="white"
+          wrap-count="36">
+        </a-text>
+
+      </a-entity>
+
+      <!-- ================= TARGET 5 ================= -->
+      <a-entity mindar-image-target="targetIndex: 5"
+                animation="property: scale; from: 0 0 0; to: 1 1 1; dur: 350">
+
+        <a-plane src="#img5" position="0 -0.05 0" width="1" height="0.6"></a-plane>
+
+        <a-plane
+          position="0 -0.45 0"
+          width="1.05"
+          height="0.32"
+          material="color: black; opacity: 0.7">
+        </a-plane>
+
+        <a-text
+          value="Elemento 6 – explicação contextual."
+          position="0 -0.45 0.01"
+          width="1.9"
+          align="center"
+          color="white"
+          wrap-count="36">
+        </a-text>
+
+      </a-entity>
+
+      <!-- ================= TARGET 6 ================= -->
+      <a-entity mindar-image-target="targetIndex: 6"
+                animation="property: scale; from: 0 0 0; to: 1 1 1; dur: 350">
+
+        <a-plane src="#img6" position="0 -0.05 0" width="1" height="0.6"></a-plane>
+
+        <a-plane
+          position="0 -0.45 0"
+          width="1.05"
+          height="0.32"
+          material="color: black; opacity: 0.7">
+        </a-plane>
+
+        <a-text
+          value="Elemento 7 – explicação contextual."
+          position="0 -0.45 0.01"
+          width="1.9"
+          align="center"
+          color="white"
+          wrap-count="36">
+        </a-text>
+
+      </a-entity>
+
+      
+
+    </a-scene>
+  </body>
 </html>
