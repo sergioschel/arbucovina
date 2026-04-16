@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -32,6 +33,38 @@
       <!-- ================= TARGET 0 ================= -->
       <a-entity mindar-image-target="targetIndex: 0"
                 animation="property: scale; from: 0 0 0; to: 1 1 1; dur: 350">
+=======
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>DEBUG – Mural Bucovina</title>
+
+  <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #info-box {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.85);
+      color: white;
+      padding: 14px 16px;
+      border-radius: 10px;
+      display: none;
+      max-width: 85%;
+      font-family: Arial;
+      font-size: 15px;
+    }
+  </style>
+</head>
+>>>>>>> 2abcf883d506dbe23f6d3dd3683c66359d5ae1b5
 
         <!-- IMAGEM -->
         <a-plane
@@ -41,6 +74,7 @@
           height="0.6">
         </a-plane>
 
+<<<<<<< HEAD
         <!-- FUNDO DO TEXTO -->
         <a-plane
           position="0 -0.45 0"
@@ -210,3 +244,53 @@
     </a-scene>
   </body>
 </html>
+=======
+<div id="info-box">DEBUG TEXTO</div>
+
+<a-scene
+  mindar-image="imageTargetSrc: painel.mind;"
+  vr-mode-ui="enabled: false"
+  device-orientation-permission-ui="enabled: true">
+
+  <!-- ⚠️ LOOK-CONTROLS ATIVADO -->
+  <a-camera look-controls="enabled: true">
+    <!-- CURSOR VISÍVEL PARA DEBUG -->
+    <a-cursor
+      fuse="true"
+      fuse-timeout="500"
+      raycaster="objects: .zona"
+      color="yellow">
+    </a-cursor>
+  </a-camera>
+
+  <!-- TARGET -->
+  <a-entity mindar-image-target="targetIndex: 0">
+
+    <!-- ZONA VISÍVEL PARA DEBUG -->
+    <a-plane class="zona"
+      position="0 0 0"
+      width="0.4"
+      height="0.4"
+      material="color:red; opacity:0.6"
+      onmouseenter="mostrar('✅ FUNCIONOU! Elemento detectado')"
+      onmouseleave="esconder()">
+    </a-plane>
+
+  </a-entity>
+</a-scene>
+
+<script>
+  function mostrar(txt) {
+    const box = document.getElementById('info-box');
+    box.innerText = txt;
+    box.style.display = 'block';
+  }
+
+  function esconder() {
+    document.getElementById('info-box').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
+>>>>>>> 2abcf883d506dbe23f6d3dd3683c66359d5ae1b5
